@@ -3,8 +3,7 @@ package com.devtiro.blog.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +20,9 @@ public class Tag {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Post> posts = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
