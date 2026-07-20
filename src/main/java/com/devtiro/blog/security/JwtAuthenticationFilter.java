@@ -24,10 +24,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
 
+//            System.out.println(request.getHeader("Authorization"));
             String token = extractToken(request);
             if (token != null) {
                 UserDetails userDetails = authenticationService.validateToken(token);
-
+//                System.out.println(userDetails.getUsername());
+//                System.out.println(userDetails.getPassword());
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null,
                         userDetails.getAuthorities());
@@ -39,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            logger.warn("Recieved invalid Auth token");
+            logger.warn("Received invalid Auth token");
         }
 
         filterChain.doFilter(request, response);

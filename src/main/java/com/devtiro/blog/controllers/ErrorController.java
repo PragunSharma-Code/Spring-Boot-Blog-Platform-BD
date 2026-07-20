@@ -70,5 +70,15 @@ public class ErrorController {
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ApiErrorResponse>  handleNullPointerException(NullPointerException ex) {
+        ApiErrorResponse error = new ApiErrorResponse().builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
