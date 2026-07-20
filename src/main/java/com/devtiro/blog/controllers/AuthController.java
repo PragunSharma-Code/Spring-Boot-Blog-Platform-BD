@@ -14,15 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api/v1/auth")
 @RequiredArgsConstructor
-public class AuthorController {
+public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping
-    private ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
+    private ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) throws Exception {
         UserDetails userDetails = authenticationService.authenticate(
                 loginRequest.getEmail()
                 , loginRequest.getPassword());
+
         String tokenValue = authenticationService.generateToken(userDetails);
+
         AuthResponse authResponse = AuthResponse.builder()
                 .token(tokenValue)
                 .expiresIn(86400)
